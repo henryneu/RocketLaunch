@@ -102,12 +102,13 @@ public class RocketService extends Service {
                     case MotionEvent.ACTION_UP:
                         // 小火箭拖拽到手机屏幕下方的中间时，触发小火箭发射
                         if (mParams.x > mWindowWidth / 2 - 150 && mParams.x < mWindowWidth / 2 - mToastRocketView.getWidth() / 2 + 50
-                                && mParams.y > 350) {
+                                && mParams.y > mWindowHeight - mToastRocketView.getHeight() - 25) {
                             // 小火箭发射升空
                             launchRocket();
                             Intent intent = new Intent(RocketService.this, SmokeBackActivity.class);
                             // 服务中开启activity，需要设置任务栈
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                             startActivity(intent);
                         }
                         break;
@@ -124,8 +125,8 @@ public class RocketService extends Service {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int disY = mWindowHeight / 10;
-                for (int i = 0; i < 11; i++) {
+                int disY = mWindowHeight / 5;
+                for (int i = 0; i < 6; i++) {
                     int height = mWindowHeight - i * disY;
                     try {
                         Thread.sleep(50);

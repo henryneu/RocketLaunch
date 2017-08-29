@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 public class SmokeBackActivity extends Activity {
@@ -38,8 +41,16 @@ public class SmokeBackActivity extends Activity {
         // 尾气喷射设置动画效果并开启
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(500);
-        mSmokeTopImageView.startAnimation(alphaAnimation);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(1.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF, 1f);
+        scaleAnimation.setDuration(500);
+        // 动画集中添加缩放和透明动画
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+        mSmokeTopImageView.startAnimation(animationSet);
         mSmokeBottomImageView.startAnimation(alphaAnimation);
+        // 1秒之后关闭当期活动
         mHandler.sendEmptyMessageDelayed(0, 1000);
     }
 }
